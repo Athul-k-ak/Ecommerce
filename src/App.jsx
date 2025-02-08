@@ -4,14 +4,12 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Products from "./pages/Products";
 import Navbar from "./components/Navbar";
-import ProductDetails from "./components/ProductDetails";
-import Cart from "./pages/Cart";  // Ensure the import is correct
+import ProductDetails from "./components/ProductDetails"; // Corrected import path
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     sessionStorage.getItem("isAuthenticated") === "true"
   );
-  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     sessionStorage.setItem("isAuthenticated", isAuthenticated);
@@ -19,22 +17,19 @@ function App() {
 
   return (
     <div>
-      <Navbar 
-        isAuthenticated={isAuthenticated} 
-        setIsAuthenticated={setIsAuthenticated} 
-        cartItemsCount={cartItems.length} // Pass cart count to Navbar
-      />
+      <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
       <Routes>
         <Route path="/" element={<Home isAuthenticated={isAuthenticated} />} />
         <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
         <Route
           path="/products"
-          element={isAuthenticated ? <Products cartItems={cartItems} setCartItems={setCartItems} /> : <Navigate to="/login" replace />}
+          element={isAuthenticated ? <Products /> : <Navigate to="/login" replace />}
         />
-        <Route 
-          path="/cart" 
-          element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} // Ensure props are passed
+        <Route
+          path="/product/:id"
+          element={isAuthenticated ? <ProductDetails /> : <Navigate to="/login" replace />}
         />
+        <Route path="*" element={<Navigate to="/" />} /> {/* Redirect unknown routes */}
       </Routes>
     </div>
   );

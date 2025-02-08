@@ -15,7 +15,6 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
       <div className="nav-left">
         <Link to="/">🏠 Home</Link>
         <Link to="/products">🛒 Products</Link>
-        {isAuthenticated && <Link to="/">🛍️ Cart</Link>}
       </div>
       <div className="nav-right">
         {isAuthenticated ? (
